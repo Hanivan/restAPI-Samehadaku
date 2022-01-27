@@ -10,9 +10,9 @@ This rest api is unofficial. So I am not responsible if there is incomplete/brok
 - [x] Ongoing
   - [x] Pagination
 - [x] Schedule
-- [x] Genre List
+- [x] Genre
   - [x] Anime By Genre With Pagination
-- [x] Detail Anime
+- [x] Anime
   - [x] Detail
   - [x] Batch
   - [x] Episode List
@@ -23,6 +23,10 @@ This rest api is unofficial. So I am not responsible if there is incomplete/brok
   - [x] Pagination Per Episode
   - [x] Streaming Link
   - [x] Download Link
+- [x] Season
+  - [x] Anime By Season With Pagination
+- [x] Studio
+  - [x] Anime By Studio With Pagination
 - [x] Search
 - [ ] Refactor Code Anime & Batch Detail Functions (_If It's Possible. Lieur soal na_)
 
