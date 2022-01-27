@@ -54,7 +54,7 @@ yarn dev (for development)
 
 ### API Documentation
 
-**API Path**: [https://samehadaku-api.herokuapp.com/api/](https://samehadaku-api.herokuapp.com/api)<br>
+**API Path**: [https://samehadaku-api.herokuapp.com/api](https://samehadaku-api.herokuapp.com/api)<br>
 **API Version**: v1
 
 | Endpoint                   | Params        | Description                        |
