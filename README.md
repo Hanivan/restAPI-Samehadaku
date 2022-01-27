@@ -13,6 +13,7 @@ This rest api is unofficial. So I am not responsible if there is incomplete/brok
 - [x] Genre
   - [x] Anime By Genre With Pagination
 - [x] Anime
+  - [x] Pagination
   - [x] Detail
   - [x] Batch
   - [x] Episode List
