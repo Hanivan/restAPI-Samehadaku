@@ -102,3 +102,4 @@ Tools I used for making this application:
 - mathjs
 - dotenv
 - cors
+- [Zippy-DL](https://github.com/anasrar/Zippy-DL) (For Bypass Stream Link With Some Modification)
