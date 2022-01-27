@@ -91,8 +91,8 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 ## Development Details
 
-**Start Work**: Sunday, 16 January 2022; 16:-- PM WIB<br>
-**Finished Work**: Thursday, 27 January 2022; 15:-- PM WIB
+**Start Work**: Sunday, 16 January 2022; 16:-- WIB<br>
+**Finished Work**: Thursday, 27 January 2022; 15:-- WIB
 
 **Absence**: Monday, 24 January 2022<br>
 **Reason**: Learn GoLang
