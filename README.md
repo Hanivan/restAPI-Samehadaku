@@ -16,13 +16,16 @@ This rest api is unofficial. So I am not responsible if there is incomplete/brok
   - [x] Detail
   - [x] Batch
   - [x] Episode List
-- [x] Detail Batch
+- [x] Anime Movie
+  - [x] Detail
+  - [x] Episode List
+- [x] Batch
   - [x] Detail
   - [x] Download Link
 - [x] Detail Episode
   - [x] Pagination Per Episode
   - [x] Streaming Link
-  - [x] Download Link
+  - [x] Download Episode & Batch Link
 - [x] Season
   - [x] Anime By Season With Pagination
 - [x] Studio
