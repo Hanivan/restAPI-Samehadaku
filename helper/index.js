@@ -20,7 +20,7 @@ export const zippyGetLink = async (u) => {
   const urlori = _url.parse(u, true);
   const key = url.query["key"];
   const time = evaluate(
-    /\(([\d\s\+\%]+?)\)/gm.exec($("#dlbutton").next().html())[1]
+    /\(([\d\s\+\%]+?)\)/gm.exec($("#dlbutton").next().html())[0]
   );
   const dlurl =
     urlori.protocol +
