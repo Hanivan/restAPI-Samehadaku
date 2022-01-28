@@ -15,6 +15,12 @@ export const zippyGetLink = async (u) => {
   const zippy = await fetch(u);
   const body = await zippy.text();
   const $ = cheerio.load(body);
+  const isContain = $("#lrbox > div > div:nth-child(2)").text().trim();
+  let dlurl;
+
+  if (isContain.match("File does not exist on this server")) {
+    return (dlurl = "#");
+  }
   const fileName = $(".center > div:nth-child(1) > font:nth-child(4)").text();
   const url = _url.parse($(".flagen").attr("href"), true);
   const urlori = _url.parse(u, true);
@@ -22,7 +28,7 @@ export const zippyGetLink = async (u) => {
   const time = evaluate(
     /\(([\d\s\+\%]+?)\)/gm.exec($("#dlbutton").next().html())[1]
   );
-  const dlurl =
+  dlurl =
     urlori.protocol +
     "//" +
     urlori.hostname +
