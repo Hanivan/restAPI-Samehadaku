@@ -33,6 +33,7 @@ This rest api is unofficial. So I am not responsible if there is incomplete/brok
   - [x] Anime By Studio With Pagination
 - [x] Search
 - [ ] Refactor Code Anime & Batch Detail Functions (_If It's Possible. Lieur soal na_)
+- [ ] Add Genre List At Anime Detail
 
 ### Usage
 
