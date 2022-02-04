@@ -35,6 +35,7 @@ This rest api is unofficial. So I am not responsible if there is incomplete/brok
 - [ ] Refactor Code Anime & Batch Detail Functions (_If It's Possible. Lieur soal na_)
 - [ ] Add Genre List At Anime Detail
 - [ ] At /schedule, extract anime_list from schedules
+- [ ] Add link to all episode (alias detail anime)
 
 ### Usage
 
