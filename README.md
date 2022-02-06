@@ -32,7 +32,7 @@ This rest api is unofficial. So I am not responsible if there is incomplete/brok
 - [x] Studio
   - [x] Anime By Studio With Pagination
 - [x] Search
-- [ ] Refactor Code Anime & Batch Detail Functions (_If It's Possible. Lieur soal na_)
+- [ ] Refactor Code Anime & Batch Detail Functions (Split logic isContant to function. To reduce the lines. _G-Bay Repeating Code_)
 - [ ] Add Genre List At Anime Detail
 - [ ] At /schedule, extract anime_list from schedules
 - [ ] Add link to all episode (alias detail anime)
