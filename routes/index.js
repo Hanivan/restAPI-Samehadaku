@@ -52,7 +52,8 @@ router.get("/season/:id/page/:page", showSeason);
 
 router.get("*", (req, res) => {
   res.status(404).send({
-    message: "Please read the documentation at https://github.com/Hanivan",
+    message:
+      "Please read the documentation at https://github.com/Hanivan/restAPI-Samehadaku",
   });
 });
 
