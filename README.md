@@ -33,10 +33,6 @@ This rest api is unofficial. So I am not responsible if there is incomplete/brok
   - [x] Anime By Studio With Pagination
 - [x] Search
 - [ ] Refactor Code Anime & Batch Detail Functions (Split logic isContant to function. Use && operator, not if shorthand. To reduce the lines. _G-Bay Repeating Code_)
-- [ ] Add Genre List At Anime Detail
-- [ ] At /schedule, extract anime_list from schedules
-- [ ] Add link to all episode (alias detail anime)
-- [ ] Get link from pagination(/anime & /ongoing), not from meta tag
 
 ### Usage
 
