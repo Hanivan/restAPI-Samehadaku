@@ -41,7 +41,7 @@ export const allAnime = async (req, res) => {
   const page =
     typeof params === "undefined" ? "" : params === "1" ? "" : `page/${params}`;
   const fullUrl = `${baseUrl}anime/${page}`;
-  const url = req.protocol + "s://" + req.get("host") + "/api/";
+  const url = req.protocol + "://" + req.get("host") + "/api/";
 
   try {
     const response = await fetch(fullUrl);
@@ -50,14 +50,19 @@ export const allAnime = async (req, res) => {
     const { content_name, anime_list } = await fetchAllAnime(fullUrl, "anime");
     let prev_page, next_page;
 
-    prev_page = ($('link[rel="prev"]').attr("href") || "#").replace(
-      `${baseUrl}`,
-      `${url}`
-    );
-    next_page = ($('link[rel="next"]').attr("href") || "#").replace(
-      `${baseUrl}`,
-      `${url}`
-    );
+    if ($(".pagination").find(".arrow_pag").length == 1) {
+      next_page = (
+        $(".pagination").find(".arrow_pag").attr("href") || "#"
+      ).replace(`${baseUrl}`, `${url}`);
+      prev_page = "#";
+    } else {
+      next_page = (
+        $(".pagination").find(".arrow_pag").eq(1).attr("href") || "#"
+      ).replace(`${baseUrl}`, `${url}`);
+      prev_page = (
+        $(".pagination").find(".arrow_pag").eq(0).attr("href") || "#"
+      ).replace(`${baseUrl}`, `${url}`);
+    }
 
     res.status(200).json({
       status: "success",
@@ -69,8 +74,8 @@ export const allAnime = async (req, res) => {
     });
   } catch (e) {
     console.log(e);
-    res.status(403).json({
-      error: `Somethink wrong at (${req.url}).`,
+    res.status(500).json({
+      error: `Somethink wrong from server`,
     });
   }
 };
@@ -109,7 +114,7 @@ export const detailAnime = async (req, res) => {
               link,
               uploaded_on,
             });
-            animeObject.episode_list = episodeList;
+            animeObject.episode_list = episodeList; // || [], jadi if bisa dihapus
           });
 
         animeObject.batch_link = {
@@ -134,8 +139,8 @@ export const detailAnime = async (req, res) => {
     res.status(200).send(animeObject);
   } catch (e) {
     console.log(e);
-    res.status(403).json({
-      error: `Somethink wrong at (${req.url}).`,
+    res.status(500).json({
+      error: `Somethink wrong from server`,
     });
   }
 };
@@ -145,6 +150,7 @@ export const ongoingAnime = async (req, res) => {
   const page =
     typeof params === "undefined" ? "" : params === "1" ? "" : `page/${params}`;
   const fullUrl = `${ongoing}${page}`;
+  const url = req.protocol + "://" + req.get("host") + "/api/";
 
   try {
     const response = await fetch(fullUrl);
@@ -153,6 +159,21 @@ export const ongoingAnime = async (req, res) => {
     const element = $(".post-show");
     let animeList = [];
     let title, eps, thumb, author, release_on, id, link;
+    let prev_page, next_page;
+
+    if ($(".pagination").find(".arrow_pag").length == 1) {
+      next_page = (
+        $(".pagination").find(".arrow_pag").attr("href") || "#"
+      ).replace(`${baseUrl}`, `${url}`);
+      prev_page = "#";
+    } else {
+      next_page = (
+        $(".pagination").find(".arrow_pag").eq(1).attr("href") || "#"
+      ).replace(`${baseUrl}`, `${url}`);
+      prev_page = (
+        $(".pagination").find(".arrow_pag").eq(0).attr("href") || "#"
+      ).replace(`${baseUrl}`, `${url}`);
+    }
 
     element
       .eq(0)
@@ -160,13 +181,10 @@ export const ongoingAnime = async (req, res) => {
       .map(function () {
         title = $(this).find(".dtla > .entry-title > a").text();
         eps = $(this).find(".dtla > span:nth-child(2) > author").text();
-        id =
-          $(this)
-            .find(".entry-title > a")
-            .attr("href")
-            .replace(`${baseUrl}`, "")
-            .replace("-episode-", "")
-            .slice(0, -2) + "/";
+        id = $(this)
+          .find(".entry-title > a")
+          .attr("href")
+          .replace(`${baseUrl}`, "");
         thumb = $(this).find(".thumb > a > img").attr("src").split("?")[0];
         author = $(this).find(".dtla > span:nth-child(3) > author").text();
         release_on = $(this)
@@ -189,12 +207,14 @@ export const ongoingAnime = async (req, res) => {
     res.status(200).json({
       status: "success",
       data_from: fullUrl,
+      prev_page,
+      next_page,
       anime_list: animeList,
     });
   } catch (e) {
     console.log(e);
-    res.status(403).json({
-      error: `Somethink wrong at (${req.url}).`,
+    res.status(500).json({
+      error: `Somethink wrong from server`,
     });
   }
 };
@@ -262,7 +282,7 @@ export const animeSchedule = async (req, res) => {
     res.status(200).json({
       status: "success",
       data_from: schedule,
-      schedules,
+      anime_schedule: schedules.anime_list,
     });
   } catch (e) {
     console.log(e);
@@ -331,8 +351,8 @@ export const showGenre = async (req, res) => {
     });
   } catch (e) {
     console.log(e);
-    res.status(403).json({
-      error: `Somethink wrong at (${req.url}).`,
+    res.status(500).json({
+      error: `Somethink wrong from server`,
     });
   }
 };
@@ -354,8 +374,8 @@ export const allBatch = async (req, res) => {
     });
   } catch (e) {
     console.log(e);
-    res.status(403).json({
-      error: `Somethink wrong at (${req.url}).`,
+    res.status(500).json({
+      error: `Somethink wrong from server`,
     });
   }
 };
@@ -401,6 +421,7 @@ export const detailBatch = async (req, res) => {
 
         /////////////////////////////////////////////////////////////////////////////////////////
 
+        // liat ke helper
         for (let i = 1; i <= 13; i++) {
           $(this)
             .find(`.anim-senct > .right-senc > .infoanime > .infox > .spe`)
@@ -445,24 +466,6 @@ export const detailBatch = async (req, res) => {
                     .trim())
                 : "";
 
-              isContain.match("Season") || animeObject.season_list === undefined
-                ? $(this)
-                    .find(`span:nth-child(${i}) > a`)
-                    .map(function () {
-                      season_name = $(this).text();
-                      season_id = $(this)
-                        .attr("href")
-                        .replace(`${baseUrl}season/`, "");
-                      season_link = $(this).attr("href");
-                      seasonList.push({
-                        season_name,
-                        season_id,
-                        season_link,
-                      });
-                      animeObject.season_list = seasonList;
-                    })
-                : "";
-
               isContain.match("Genre") || animeObject.genre_list === undefined
                 ? $(this)
                     .find(`span:nth-child(${i}) > a`)
@@ -478,6 +481,24 @@ export const detailBatch = async (req, res) => {
                         genre_link,
                       });
                       animeObject.genre_list = genreList;
+                    })
+                : "";
+
+              isContain.match("Season") || animeObject.season_list === undefined
+                ? $(this)
+                    .find(`span:nth-child(${i}) > a`)
+                    .map(function () {
+                      season_name = $(this).text();
+                      season_id = $(this)
+                        .attr("href")
+                        .replace(`${baseUrl}season/`, "");
+                      season_link = $(this).attr("href");
+                      seasonList.push({
+                        season_name,
+                        season_id,
+                        season_link,
+                      });
+                      animeObject.season_list = seasonList;
                     })
                 : "";
 
@@ -566,11 +587,11 @@ export const detailBatch = async (req, res) => {
               if (animeObject.duration === undefined) {
                 animeObject.duration = "";
               }
-              if (animeObject.season_list === undefined) {
-                animeObject.season_list = [];
-              }
               if (animeObject.genre_list === undefined) {
                 animeObject.genre_list = [];
+              }
+              if (animeObject.season_list === undefined) {
+                animeObject.season_list = [];
               }
               if (animeObject.producer_list === undefined) {
                 animeObject.producer_list = [];
@@ -634,8 +655,8 @@ export const detailBatch = async (req, res) => {
     res.status(200).send(animeObject);
   } catch (e) {
     console.log(e);
-    res.status(403).json({
-      error: `Somethink wrong at (${req.url}).`,
+    res.status(500).json({
+      error: `Somethink wrong from server`,
     });
   }
 };
@@ -643,7 +664,7 @@ export const detailBatch = async (req, res) => {
 export const showEpisode = async (req, res) => {
   const params = req.params.id;
   const fullUrl = `${baseUrl}${params}`;
-  const url = req.protocol + "s://" + req.get("host") + "/api/";
+  const url = req.protocol + "://" + req.get("host") + "/api/";
 
   try {
     const response = await fetch(fullUrl);
@@ -658,21 +679,21 @@ export const showEpisode = async (req, res) => {
     low_quality =
       (await zippyGetLink(
         $(".infoeps .download-eps")
-          .eq(1)
+          .eq(0)
           .find("ul > li:nth-child(1) > span > a")
           .attr("href")
       )) || "#";
     medium_quality =
       (await zippyGetLink(
         $(".infoeps .download-eps")
-          .eq(1)
+          .eq(0)
           .find("ul > li:nth-child(2) > span > a")
           .attr("href")
       )) || "#";
     high_quality =
       (await zippyGetLink(
         $(".infoeps .download-eps")
-          .eq(1)
+          .eq(0)
           .find("ul > li:nth-child(3) > span > a")
           .attr("href")
       )) || "#";
@@ -708,6 +729,9 @@ export const showEpisode = async (req, res) => {
     animeObject.next_eps = (
       $(".naveps > div:nth-child(3) > a").attr("href") || "#"
     ).replace(`${baseUrl}`, `${url}eps/`);
+    animeObject.all_eps = (
+      $(".naveps > div:nth-child(2) > a").attr("href") || "#"
+    ).replace(`${baseUrl}`, `${url}`);
 
     title = $(".infoeps")
       .find(".download-eps")
@@ -745,8 +769,8 @@ export const showEpisode = async (req, res) => {
     res.status(200).send(animeObject);
   } catch (e) {
     console.log(e);
-    res.status(403).json({
-      error: `Somethink wrong at (${req.url}).`,
+    res.status(500).json({
+      error: `Somethink wrong from server`,
     });
   }
 };
@@ -840,17 +864,3 @@ export const showSeason = async (req, res) => {
     });
   }
 };
-
-/*
-Todo:
-   - refactor (Tinggal detailAnime sama detailBatch. Pusing Saya Euy)
-*/
-
-/*
-   Known Bug:
-   - Cannot fetch thumbnail img (error: We cannot complete this request, remote data could not be fetched)
-*/
-
-/*
-   Mon, 24 Jan 2022 absen belajar GoLang
-*/

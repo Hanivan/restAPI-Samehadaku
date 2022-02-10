@@ -12,12 +12,12 @@ export const log = console.log;
 
 // from "github.com/anasrar/Zippy-DL"
 export const zippyGetLink = async (u) => {
+  if (!String(u).includes("v")) return "#";
   const zippy = await fetch(u);
   const body = await zippy.text();
   const $ = cheerio.load(body);
-  const isContain = $("#lrbox > div > div:nth-child(2)").text().trim();
   let dlurl;
-
+  const isContain = $("#lrbox > div > div:nth-child(2)").text().trim();
   if (isContain.match("File does not exist on this server")) {
     return (dlurl = "#");
   }
@@ -25,9 +25,8 @@ export const zippyGetLink = async (u) => {
   const url = _url.parse($(".flagen").attr("href"), true);
   const urlori = _url.parse(u, true);
   const key = url.query["key"];
-  const time = evaluate(
-    /\(([\d\s\+\%]+?)\)/gm.exec($("#dlbutton").next().html())[1]
-  );
+  const time =
+    evaluate(/\(([\d\s\+\%]+?)\)/gm.exec($("#dlbutton").next().html())[1]) || 0;
   dlurl =
     urlori.protocol +
     "//" +
@@ -134,6 +133,15 @@ export const getDetailAnime = async (u, replace) => {
           )
           .attr("content")
       );
+      animeObject.genre_list = $(".infoanime > .infox > .genre-info > a")
+        .map(function () {
+          return {
+            genre_name: $(this).text(),
+            genre_id: $(this).attr("href").replace(`${baseUrl}genre/`, ""),
+            genre_link: $(this).attr("href"),
+          };
+        })
+        .toArray();
 
       /////////////////////////////////////////////////////////////////////////////////////////
 
