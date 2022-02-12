@@ -428,15 +428,11 @@ export const detailBatch = async (req, res) => {
             .map(function () {
               let isContain = $(this).find(`span:nth-child(${i})`).text();
 
-              // isContain.match("Japanese") && animeObject.japanese === undefined
-              //   ? (animeObject.japanese = isContain
-              //       .replace("Japanese ", "")
-              //       .trim())
-              //   : "";
-              animeObject.japanese =
-                !isContain.match("Japanese") &&
-                isContain.replace("Japanese ", "").trim();
-              log(animeObject.japanese);
+              isContain.match("Japanese") && animeObject.japanese === undefined
+                ? (animeObject.japanese = isContain
+                    .replace("Japanese ", "")
+                    .trim())
+                : "";
 
               isContain.match("English") && animeObject.english === ""
                 ? (animeObject.english = isContain
@@ -576,9 +572,9 @@ export const detailBatch = async (req, res) => {
                     .trim())
                 : "";
 
-              // if (animeObject.japanese === undefined) {
-              //   animeObject.japanese = "";
-              // }
+              if (animeObject.japanese === undefined) {
+                animeObject.japanese = "";
+              }
               if (animeObject.english === undefined) {
                 animeObject.english = "";
               }
