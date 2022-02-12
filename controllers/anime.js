@@ -41,7 +41,7 @@ export const allAnime = async (req, res) => {
   const page =
     typeof params === "undefined" ? "" : params === "1" ? "" : `page/${params}`;
   const fullUrl = `${baseUrl}anime/${page}`;
-  const url = req.protocol + "://" + req.get("host") + "/api/";
+  const url = req.protocol + "s://" + req.get("host") + "/api/";
 
   try {
     const response = await fetch(fullUrl);
@@ -150,7 +150,7 @@ export const ongoingAnime = async (req, res) => {
   const page =
     typeof params === "undefined" ? "" : params === "1" ? "" : `page/${params}`;
   const fullUrl = `${ongoing}${page}`;
-  const url = req.protocol + "://" + req.get("host") + "/api/";
+  const url = req.protocol + "s://" + req.get("host") + "/api/";
 
   try {
     const response = await fetch(fullUrl);
@@ -428,11 +428,15 @@ export const detailBatch = async (req, res) => {
             .map(function () {
               let isContain = $(this).find(`span:nth-child(${i})`).text();
 
-              isContain.match("Japanese") && animeObject.japanese === undefined
-                ? (animeObject.japanese = isContain
-                    .replace("Japanese ", "")
-                    .trim())
-                : "";
+              // isContain.match("Japanese") && animeObject.japanese === undefined
+              //   ? (animeObject.japanese = isContain
+              //       .replace("Japanese ", "")
+              //       .trim())
+              //   : "";
+              animeObject.japanese =
+                !isContain.match("Japanese") &&
+                isContain.replace("Japanese ", "").trim();
+              log(animeObject.japanese);
 
               isContain.match("English") && animeObject.english === ""
                 ? (animeObject.english = isContain
@@ -572,9 +576,9 @@ export const detailBatch = async (req, res) => {
                     .trim())
                 : "";
 
-              if (animeObject.japanese === undefined) {
-                animeObject.japanese = "";
-              }
+              // if (animeObject.japanese === undefined) {
+              //   animeObject.japanese = "";
+              // }
               if (animeObject.english === undefined) {
                 animeObject.english = "";
               }
@@ -664,7 +668,7 @@ export const detailBatch = async (req, res) => {
 export const showEpisode = async (req, res) => {
   const params = req.params.id;
   const fullUrl = `${baseUrl}${params}`;
-  const url = req.protocol + "://" + req.get("host") + "/api/";
+  const url = req.protocol + "s://" + req.get("host") + "/api/";
 
   try {
     const response = await fetch(fullUrl);
