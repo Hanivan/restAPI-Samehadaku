@@ -33,6 +33,7 @@ This rest api is unofficial. So I am not responsible if there is incomplete/brok
   - [x] Anime By Studio With Pagination
 - [x] Search
 - [ ] Refactor Code Anime & Batch Detail Functions (Split logic isContant to function. Use && operator, not if shorthand. To reduce the lines. _G-Bay Repeating Code_)
+- [ ] Add Total Episode on Anime&Batch Detail
 
 ### Usage
 
