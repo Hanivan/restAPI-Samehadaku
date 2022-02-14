@@ -177,6 +177,15 @@ export const getDetailAnime = async (u, replace) => {
                   .trim())
               : "";
 
+            isContain.match("Total Episode") &&
+            animeObject.total_episode === "-"
+              ? (animeObject.total_episode = $(this)
+                  .find(`span:nth-child(${i})`)
+                  .text()
+                  .replace("Total Episode ", "")
+                  .trim())
+              : "";
+
             isContain.match("Season") || animeObject.season_list === undefined
               ? $(this)
                   .find(`span:nth-child(${i}) > a`)
@@ -276,6 +285,9 @@ export const getDetailAnime = async (u, replace) => {
             }
             if (animeObject.duration === undefined) {
               animeObject.duration = "";
+            }
+            if (animeObject.total_episode === undefined) {
+              animeObject.total_episode = "-";
             }
             if (animeObject.season_list === undefined) {
               animeObject.season_list = [];

@@ -466,6 +466,15 @@ export const detailBatch = async (req, res) => {
                     .trim())
                 : "";
 
+              isContain.match("Total Episode") &&
+              animeObject.total_episode === "-"
+                ? (animeObject.total_episode = $(this)
+                    .find(`span:nth-child(${i})`)
+                    .text()
+                    .replace("Total Episode ", "")
+                    .trim())
+                : "";
+
               isContain.match("Genre") || animeObject.genre_list === undefined
                 ? $(this)
                     .find(`span:nth-child(${i}) > a`)
@@ -586,6 +595,9 @@ export const detailBatch = async (req, res) => {
               }
               if (animeObject.duration === undefined) {
                 animeObject.duration = "";
+              }
+              if (animeObject.total_episode === undefined) {
+                animeObject.total_episode = "-";
               }
               if (animeObject.genre_list === undefined) {
                 animeObject.genre_list = [];
