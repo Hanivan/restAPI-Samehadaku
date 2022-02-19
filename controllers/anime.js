@@ -48,7 +48,12 @@ export const allAnime = async (req, res) => {
     const body = await response.text();
     const $ = cheerio.load(body);
     const { content_name, anime_list } = await fetchAllAnime(fullUrl, "anime");
-    let prev_page, next_page;
+    let prev_page, next_page, current_page;
+
+    current_page = $(".pagination")
+      .find("span:nth-child(1)")
+      .text()
+      .replace("Page ", "");
 
     if ($(".pagination").find(".arrow_pag").length == 1) {
       next_page = (
@@ -70,6 +75,7 @@ export const allAnime = async (req, res) => {
       content_name,
       prev_page,
       next_page,
+      current_page,
       anime_list,
     });
   } catch (e) {
@@ -159,7 +165,12 @@ export const ongoingAnime = async (req, res) => {
     const element = $(".post-show");
     let animeList = [];
     let title, eps, thumb, author, release_on, id, link;
-    let prev_page, next_page;
+    let prev_page, next_page, current_page;
+
+    current_page = $(".pagination")
+      .find("span:nth-child(1)")
+      .text()
+      .replace("Page ", "");
 
     if ($(".pagination").find(".arrow_pag").length == 1) {
       next_page = (
@@ -209,6 +220,7 @@ export const ongoingAnime = async (req, res) => {
       data_from: fullUrl,
       prev_page,
       next_page,
+      current_page,
       anime_list: animeList,
     });
   } catch (e) {
