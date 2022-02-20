@@ -34,7 +34,7 @@ This rest api is unofficial. So I am not responsible if there is incomplete/brok
 - [x] Search
 - [ ] Refactor Code Anime & Batch Detail Functions (Split logic isContant to function. Use && operator, not if shorthand. To reduce the lines. _G-Bay Repeating Code_)
 - [ ] Handle If host site is error/down
-- [ ] Add pagination at /genres/${id}
+- [ ] Add pagination link at /genres/${id}
 - [ ] Change http method value from "success" to http code
 
 ### Usage
