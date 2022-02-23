@@ -37,6 +37,7 @@ This rest api is unofficial. So I am not responsible if there is incomplete/brok
 - [ ] Add pagination link at /genres/${id}
 - [ ] Add search anime by producers with pagination
 - [ ] Add pagination at /studio/${id}
+- [ ] Add pagination at /batch/page/${id}
 - [ ] Change http method value from "success" to http code
 
 ### Usage
