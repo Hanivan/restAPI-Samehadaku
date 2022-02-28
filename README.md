@@ -32,14 +32,8 @@ This rest api is unofficial. So I am not responsible if there is incomplete/brok
 - [x] Studio
   - [x] Anime By Studio With Pagination
 - [x] Search
-- [ ] Refactor Code Anime & Batch Detail Functions (Split logic isContant to function. Use && operator, not if shorthand. To reduce the lines. _G-Bay Repeating Code_)
+- [ ] Refactor Code Anime & Batch Detail Functions (If it is possible)
 - [ ] Handle If host site is error/down
-- [ ] remove/replace host from all_eps, next_eps, prev_eps at /eps/${id}
-- [ ] Add pagination link at /genres/${id}
-- [ ] Add search anime by producers with pagination
-- [ ] Add pagination at /studio/${id}
-- [ ] Add pagination at /batch/page/${id}
-- [ ] Change http method value from "success" to http code
 
 ### Usage
 
@@ -72,29 +66,31 @@ yarn dev (for development)
 **API Path**: [https://samehadaku-api.herokuapp.com/api](https://samehadaku-api.herokuapp.com/api)<br>
 **API Version**: v1
 
-| Endpoint                   | Params        | Description                        |
-| -------------------------- | ------------- | ---------------------------------- |
-| /home                      | -             | Homepage (Current Season)          |
-| /anime                     | -             | List All Anime                     |
-| /anime/page/${page}        | pageNumber    | Anime Pagination                   |
-| /anime/${id}               | id            | Detail Anime                       |
-| /ongoing                   | -             | List All Ongoing Anime             |
-| /ongoing/page/${page}      | pageNumber    | Ongoing Pagination                 |
-| /movie                     | -             | List All Anime Movie               |
-| /movie/page/${page}        | pageNumber    | Anime Movie Pagination             |
-| /genres                    | -             | List All Genre                     |
-| /genres/${id}              | id            | Show Anime by Genre                |
-| /genres/${id}/page/${page} | id,pageNumber | ~~ Anime by Genre With Pagination  |
-| /batch                     | -             | List All Anime Batch               |
-| /batch/page/${page}        | pageNumber    | Batch Pagination                   |
-| /batch/${id}               | id            | Detail Anime Batch                 |
-| /eps/${id}                 | id            | ~~ Anime Episode                   |
-| /schedule                  | -             | Schedule Anime                     |
-| /studio/${id}              | id            | Show Anime by Studio               |
-| /studio/${id}/page/${page} | id,pageNumber | ~~ Anime by Studio With Pagination |
-| /season/${id}              | id            | ~~ Anime by Season                 |
-| /season/${id}/page/${page} | id,pageNumber | ~~ Anime by Season With Pagination |
-| /search/${query}           | query         | Search Anime                       |
+| Endpoint                     | Params        | Description                          |
+| ---------------------------- | ------------- | ------------------------------------ |
+| /home                        | -             | Homepage (Current Season)            |
+| /anime                       | -             | List All Anime                       |
+| /anime/page/${page}          | pageNumber    | Anime Pagination                     |
+| /anime/${id}                 | id            | Detail Anime                         |
+| /ongoing                     | -             | List All Ongoing Anime               |
+| /ongoing/page/${page}        | pageNumber    | Ongoing Pagination                   |
+| /movie                       | -             | List All Anime Movie                 |
+| /movie/page/${page}          | pageNumber    | Anime Movie Pagination               |
+| /genres                      | -             | List All Genre                       |
+| /genres/${id}                | id            | Show Anime by Genre                  |
+| /genres/${id}/page/${page}   | id,pageNumber | ~~ Anime by Genre With Pagination    |
+| /batch                       | -             | List All Anime Batch                 |
+| /batch/page/${page}          | pageNumber    | Batch Pagination                     |
+| /batch/${id}                 | id            | Detail Anime Batch                   |
+| /eps/${id}                   | id            | ~~ Anime Episode                     |
+| /schedule                    | -             | Schedule Anime                       |
+| /studio/${id}                | id            | Show Anime by Studio                 |
+| /studio/${id}/page/${page}   | id,pageNumber | ~~ Anime by Studio With Pagination   |
+| /producer/${id}              | id            | Show Anime by Producer               |
+| /producer/${id}/page/${page} | id,pageNumber | ~~ Anime by Producer With Pagination |
+| /season/${id}                | id            | ~~ Anime by Season                   |
+| /season/${id}/page/${page}   | id,pageNumber | ~~ Anime by Season With Pagination   |
+| /search/${query}             | query         | Search Anime                         |
 
 ## Contributing
 
