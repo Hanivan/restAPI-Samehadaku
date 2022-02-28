@@ -673,6 +673,7 @@ export const showEpisode = async (req, res) => {
   const fullUrl = `${baseUrl}${params}`;
 
   try {
+    res.cookie('cookieName', 'cookieValue', { sameSite: 'none', secure: true})
     const response = await fetch(fullUrl);
     const body = await response.text();
     const $ = cheerio.load(body);
