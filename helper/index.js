@@ -12,15 +12,19 @@ export const log = console.log;
 
 // from "github.com/anasrar/Zippy-DL"
 export const zippyGetLink = async (u) => {
-  if (!String(u).includes("v")) return "#";
+  if (!String(u).includes("v") || !String(u).includes("zippyshare")) return "#";
   const zippy = await fetch(u);
   const body = await zippy.text();
   const $ = cheerio.load(body);
   let dlurl;
   const isContain = $("#lrbox > div > div:nth-child(2)").text().trim();
-  if (isContain.match("File does not exist on this server")) {
+  if (
+    isContain.match("File does not exist on this server") ||
+    isContain.match(
+      "File has expired and does not exist anymore on this server"
+    )
+  )
     return (dlurl = "#");
-  }
   const fileName = $(".center > div:nth-child(1) > font:nth-child(4)").text();
   const url = _url.parse($(".flagen").attr("href"), true);
   const urlori = _url.parse(u, true);
@@ -41,6 +45,38 @@ export const zippyGetLink = async (u) => {
   return dlurl;
 };
 
+export const getPagination = async (u, host) => {
+  try {
+    const response = await fetch(u);
+    const body = await response.text();
+    const $ = cheerio.load(body);
+    let prev_page, next_page, current_page;
+
+    current_page = $(".pagination")
+      .find("span:nth-child(1)")
+      .text()
+      .replace("Page ", "");
+
+    if ($(".pagination").find(".arrow_pag").length == 1) {
+      next_page = (
+        $(".pagination").find(".arrow_pag").attr("href") || "#"
+      ).replace(`${baseUrl}`, `${host}`);
+      prev_page = "#";
+    } else {
+      next_page = (
+        $(".pagination").find(".arrow_pag").eq(1).attr("href") || "#"
+      ).replace(`${baseUrl}`, `${host}`);
+      prev_page = (
+        $(".pagination").find(".arrow_pag").eq(0).attr("href") || "#"
+      ).replace(`${baseUrl}`, `${host}`);
+    }
+
+    return { prev_page, next_page, current_page };
+  } catch (e) {
+    log(e.message);
+  }
+};
+
 export const fetchAllAnime = async (u, replace) => {
   const response = await fetch(u);
   const body = await response.text();
@@ -48,7 +84,6 @@ export const fetchAllAnime = async (u, replace) => {
   const element = $(".relat");
   let animeList = [];
   let content_name, title, id, thumb, status, type, score, link;
-
   content_name = $(".widget_senction").eq(0).find(".widget-title").text();
 
   element

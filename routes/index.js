@@ -12,6 +12,7 @@ import {
   searchAnime,
   showEpisode,
   showGenre,
+  showProducer,
   showSeason,
   showStudio,
 } from "../controllers/anime.js";
@@ -46,6 +47,9 @@ router.get("/search/:id", searchAnime);
 
 router.get("/studio/:id", showStudio);
 router.get("/studio/:id/page/:page", showStudio);
+
+router.get("/producer/:id", showProducer);
+router.get("/producer/:id/page/:page", showProducer);
 
 router.get("/season/:id", showSeason);
 router.get("/season/:id/page/:page", showSeason);

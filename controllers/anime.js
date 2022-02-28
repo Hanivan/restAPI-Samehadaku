@@ -4,6 +4,7 @@ import cheerio from "cheerio";
 import {
   fetchAllAnime,
   getDetailAnime,
+  getPagination,
   log,
   zippyGetLink,
 } from "../helper/index.js";
@@ -16,6 +17,7 @@ const schedule = `${baseUrl}${env.SCHEDULE}`;
 const batch = `${baseUrl}${env.BATCH}`;
 const movie = `${baseUrl}${env.MOVIE}`;
 const studio = `${baseUrl}${env.STUDIO}`;
+const producer = `${baseUrl}${env.PRODUCER}`;
 const season = `${baseUrl}${env.SEASON}`;
 
 export const home = async (req, res) => {
@@ -44,30 +46,11 @@ export const allAnime = async (req, res) => {
   const url = req.protocol + "s://" + req.get("host") + "/api/";
 
   try {
-    const response = await fetch(fullUrl);
-    const body = await response.text();
-    const $ = cheerio.load(body);
     const { content_name, anime_list } = await fetchAllAnime(fullUrl, "anime");
-    let prev_page, next_page, current_page;
-
-    current_page = $(".pagination")
-      .find("span:nth-child(1)")
-      .text()
-      .replace("Page ", "");
-
-    if ($(".pagination").find(".arrow_pag").length == 1) {
-      next_page = (
-        $(".pagination").find(".arrow_pag").attr("href") || "#"
-      ).replace(`${baseUrl}`, `${url}`);
-      prev_page = "#";
-    } else {
-      next_page = (
-        $(".pagination").find(".arrow_pag").eq(1).attr("href") || "#"
-      ).replace(`${baseUrl}`, `${url}`);
-      prev_page = (
-        $(".pagination").find(".arrow_pag").eq(0).attr("href") || "#"
-      ).replace(`${baseUrl}`, `${url}`);
-    }
+    const { prev_page, next_page, current_page } = await getPagination(
+      fullUrl,
+      url
+    );
 
     res.status(200).json({
       status: "success",
@@ -160,31 +143,15 @@ export const ongoingAnime = async (req, res) => {
 
   try {
     const response = await fetch(fullUrl);
+    const { prev_page, next_page, current_page } = await getPagination(
+      fullUrl,
+      url
+    );
     const body = await response.text();
     const $ = cheerio.load(body);
     const element = $(".post-show");
     let animeList = [];
     let title, eps, thumb, author, release_on, id, link;
-    let prev_page, next_page, current_page;
-
-    current_page = $(".pagination")
-      .find("span:nth-child(1)")
-      .text()
-      .replace("Page ", "");
-
-    if ($(".pagination").find(".arrow_pag").length == 1) {
-      next_page = (
-        $(".pagination").find(".arrow_pag").attr("href") || "#"
-      ).replace(`${baseUrl}`, `${url}`);
-      prev_page = "#";
-    } else {
-      next_page = (
-        $(".pagination").find(".arrow_pag").eq(1).attr("href") || "#"
-      ).replace(`${baseUrl}`, `${url}`);
-      prev_page = (
-        $(".pagination").find(".arrow_pag").eq(0).attr("href") || "#"
-      ).replace(`${baseUrl}`, `${url}`);
-    }
 
     element
       .eq(0)
@@ -351,14 +318,22 @@ export const showGenre = async (req, res) => {
   const page =
     typeof params === "undefined" ? "" : params === "1" ? "" : `page/${params}`;
   const fullUrl = `${baseUrl}genre/${id}/${page}`;
+  const url = req.protocol + "s://" + req.get("host") + "/api/";
 
   try {
     let { content_name, anime_list } = await fetchAllAnime(fullUrl, "anime");
+    const { prev_page, next_page, current_page } = await getPagination(
+      fullUrl,
+      url
+    );
 
     res.status(200).json({
       status: "success",
       data_from: fullUrl,
       content_name,
+      prev_page,
+      next_page,
+      current_page,
       anime_list,
     });
   } catch (e) {
@@ -374,14 +349,22 @@ export const allBatch = async (req, res) => {
   const page =
     typeof params === "undefined" ? "" : params === "1" ? "" : `page/${params}`;
   const fullUrl = `${batch}${page}`;
+  const url = req.protocol + "s://" + req.get("host") + "/api/";
 
   try {
     const { content_name, anime_list } = await fetchAllAnime(fullUrl, "batch");
+    const { prev_page, next_page, current_page } = await getPagination(
+      fullUrl,
+      url
+    );
 
     res.status(200).json({
       status: "success",
       data_from: fullUrl,
       content_name,
+      prev_page,
+      next_page,
+      current_page,
       anime_list,
     });
   } catch (e) {
@@ -688,13 +671,12 @@ export const detailBatch = async (req, res) => {
 export const showEpisode = async (req, res) => {
   const params = req.params.id;
   const fullUrl = `${baseUrl}${params}`;
-  const url = req.protocol + "s://" + req.get("host") + "/api/";
 
   try {
     const response = await fetch(fullUrl);
     const body = await response.text();
     const $ = cheerio.load(body);
-    const element = $(".widget_senction");
+    const element = $(".player-area");
     let animeObject = {};
     let streamList = [];
     let title, low_quality, medium_quality, high_quality;
@@ -733,7 +715,6 @@ export const showEpisode = async (req, res) => {
       .map(function () {
         animeObject.status = "success";
         animeObject.data_from = fullUrl;
-
         animeObject.title = $(this).find(".entry-title").text();
         animeObject.current_episode = parseInt(
           $(this).find(".epx > span").text() || null
@@ -749,13 +730,13 @@ export const showEpisode = async (req, res) => {
 
     animeObject.prev_eps = (
       $(".naveps > div:nth-child(1) > a").attr("href") || "#"
-    ).replace(`${baseUrl}`, `${url}eps/`);
+    ).replace(`${baseUrl}`, ``);
     animeObject.next_eps = (
       $(".naveps > div:nth-child(3) > a").attr("href") || "#"
-    ).replace(`${baseUrl}`, `${url}eps/`);
+    ).replace(`${baseUrl}`, ``);
     animeObject.all_eps = (
       $(".naveps > div:nth-child(2) > a").attr("href") || "#"
-    ).replace(`${baseUrl}`, `${url}`);
+    ).replace(`${baseUrl}anime/`, ``);
 
     title = $(".infoeps")
       .find(".download-eps")
@@ -849,14 +830,53 @@ export const showStudio = async (req, res) => {
   const page =
     typeof params === "undefined" ? "" : params === "1" ? "" : `page/${params}`;
   const fullUrl = `${studio}${id}/${page}`;
+  const url = req.protocol + "s://" + req.get("host") + "/api/";
 
   try {
     const { content_name, anime_list } = await fetchAllAnime(fullUrl, "anime");
+    const { prev_page, next_page, current_page } = await getPagination(
+      fullUrl,
+      url
+    );
 
     res.status(200).json({
       status: "success",
       data_from: fullUrl,
       content_name,
+      prev_page,
+      next_page,
+      current_page,
+      anime_list,
+    });
+  } catch (e) {
+    res.status(500).json({
+      error: `Somethink wrong from server`,
+    });
+  }
+};
+
+export const showProducer = async (req, res) => {
+  const id = req.params.id;
+  const params = req.params.page;
+  const page =
+    typeof params === "undefined" ? "" : params === "1" ? "" : `page/${params}`;
+  const fullUrl = `${producer}${id}/${page}`;
+  const url = req.protocol + "s://" + req.get("host") + "/api/";
+
+  try {
+    const { content_name, anime_list } = await fetchAllAnime(fullUrl, "anime");
+    const { prev_page, next_page, current_page } = await getPagination(
+      fullUrl,
+      url
+    );
+
+    res.status(200).json({
+      status: "success",
+      data_from: fullUrl,
+      content_name,
+      prev_page,
+      next_page,
+      current_page,
       anime_list,
     });
   } catch (e) {
