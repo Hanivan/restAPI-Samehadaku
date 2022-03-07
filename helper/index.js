@@ -96,7 +96,7 @@ export const fetchAllAnime = async (u, replace) => {
         .attr("href")
         .replace(`${baseUrl}${replace}/`, "");
       thumb = (
-        $(this).find(".animposx > a > .content-thumb > .anmsa").attr("src") ||
+        $(this).find(".animposx > a > .content-thumb > .anmsa").attr("data-src") ||
         "?"
       ).split("?")[0];
       status = $(this).find(".animposx > a > .data > .type").text();
@@ -145,7 +145,7 @@ export const getDetailAnime = async (u, replace) => {
     .map(function () {
       animeObject.data_from = `${u}`;
       animeObject.thumb = (
-        $(this).find(".infoanime > .thumb > .anmsa").attr("src") || "?"
+        $(this).find(".infoanime > .thumb > .anmsa").attr("data-src") || "?"
       ).split("?")[0];
       animeObject.id = u.replace(`${baseUrl}${replace}/`, "");
       animeObject.synopsis = $(this)
