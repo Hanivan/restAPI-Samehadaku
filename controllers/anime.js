@@ -163,7 +163,7 @@ export const ongoingAnime = async (req, res) => {
           .find(".entry-title > a")
           .attr("href")
           .replace(`${baseUrl}`, "");
-        thumb = $(this).find(".thumb > a > img").attr("src").split("?")[0];
+        thumb = $(this).find(".thumb > a > img").attr("data-src").split("?")[0];
         author = $(this).find(".dtla > span:nth-child(3) > author").text();
         release_on = $(this)
           .find(".dtla > span:nth-child(4)")
