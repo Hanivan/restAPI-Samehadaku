@@ -31,6 +31,8 @@ This rest api is unofficial. So I am not responsible if there is incomplete/brok
   - [x] Anime By Season With Pagination
 - [x] Studio
   - [x] Anime By Studio With Pagination
+- [x] Producer
+  - [x] Anime By Producer With Pagination
 - [x] Search
 - [ ] Refactor Code Anime & Batch Detail Functions (If it is possible)
 - [ ] Handle If host site is error/down
