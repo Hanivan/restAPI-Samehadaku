@@ -29,8 +29,11 @@ export const zippyGetLink = async (u) => {
   const url = _url.parse($(".flagen").attr("href"), true);
   const urlori = _url.parse(u, true);
   const key = url.query["key"];
-  const time =
-    evaluate(/\(([\d\s\+\%]+?)\)/gm.exec($("#dlbutton").next().html())[1]) || 0;
+  const downloadKey1 = +$("#dlbutton").next().html().trim().match(/(\d+)/g)[0];
+  const downloadKey2 = "asdasd".substr(0, 3).length;
+  const seed = Math.pow(downloadKey1, 3) + downloadKey2;
+  // const time =
+  //   evaluate(/\(([\d\s\+\%]+?)\)/gm.exec($("#dlbutton").next().html())[1]) || 0;
   dlurl =
     urlori.protocol +
     "//" +
@@ -38,7 +41,7 @@ export const zippyGetLink = async (u) => {
     "/d/" +
     key +
     "/" +
-    time +
+    seed +
     "/" +
     fileName;
 
