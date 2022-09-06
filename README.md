@@ -3,6 +3,9 @@
 This rest api is unofficial. So I am not responsible if there is incomplete/broken data.
 
 **All data taken from**: [Samehadaku](https://194.163.183.129)
+<br>
+**Hi! Check out the frontend I've made**: [Yamiweb](https://yamiweb.herokuapp.com/)
+
 
 ### TODO
 
